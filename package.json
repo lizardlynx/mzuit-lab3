@@ -1,0 +1,27 @@
+{
+  "name": "efk-stack",
+  "version": "1.0.0",
+  "description": "A sample environment running an [EFK stack][efk] on your local machine.",
+  "main": "server.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lizardlynx/mzuit-lab3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lizardlynx/mzuit-lab3/issues"
+  },
+  "homepage": "https://github.com/lizardlynx/mzuit-lab3#readme",
+  "dependencies": {
+    "@fluent-org/logger": "^1.0.10",
+    "express": "^4.19.1"
+  }
+}
