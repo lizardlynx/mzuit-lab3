@@ -14,14 +14,14 @@ const logger = new FluentClient('fluentd.test', {
 
 const link = 'https://openlibrary.org/search.json';
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   const params = req.query;
   console.log('Calling with parameters ', params);
   logger.emit('Query params', {params});
-  const response = axios.get(link, {params})
-  logger.emit('Response', {response})
+  const {data: {docs: [firstHit]}} = await axios.get(link, {params})
+  logger.emit('Response', {firstHit})
 
-  res.send(response)
+  res.send(firstHit)
 });
 
 
