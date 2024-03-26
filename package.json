@@ -22,6 +22,7 @@
   "homepage": "https://github.com/lizardlynx/mzuit-lab3#readme",
   "dependencies": {
     "@fluent-org/logger": "^1.0.10",
+    "axios": "^1.6.8",
     "express": "^4.19.1"
   }
 }
