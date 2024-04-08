@@ -1,28 +1,38 @@
-version: '3'
+version: '3.7'
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
-    environment:
-      - http.host=0.0.0.0
-      - transport.host=0.0.0.0
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    ports:
-      - 9200:9200
-      - 9300:9300
-
-  fluentd:
-    build: ./fluentd
+  prometheus:
+    image: prom/prometheus:v2.1.0
     volumes:
-      - ./fluentd/conf:/fluentd/etc
-      - ./logs:/logs
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
-      - 8080:8080
+      - 9090:9090
+    restart: always
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.7.1
-    environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
+  grafana:
+    image: grafana/grafana
+    user: "472"
+    depends_on:
+      - prometheus
     ports:
-      - 5601:5601
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: always
+
+  myApp:
+    image: la7rodectus/my-app
+    depends_on:
+      - prometheus
+    ports:
+      - 9091:9091
